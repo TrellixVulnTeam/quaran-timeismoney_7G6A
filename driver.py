@@ -1,16 +1,21 @@
 """
 @Cuong Tran's scroll function did not work with this website for some reason :(
 """
+"""
+TODO: add a function for the driver to click on a certain tab
+"""
+
 
 import requests
 from selenium import webdriver
 import time
 
 class driver():
-    browser = webdriver.Chrome('/Users/nathanielnethercott/Desktop/Coding/Stonks/quaran-timeismoney/chromedriver')
 
     def __init__(self, base):
+        self.browser = webdriver.Chrome('/Users/nathanielnethercott/Desktop/Coding/Stonks/quaran-timeismoney/chromedriver')
         self.base = base
+        self.launch()
 
     def launch(self):
         self.browser.get(self.base)
@@ -18,17 +23,16 @@ class driver():
     def terminate(self):
         self.browser.quit()
 
-    def scroll_Bottom(self):
+    def scroll_Bottom(self, num):
         #could do this based on time elapsed (like only scroll for x seconds)
         #maybe figure out sometime why the document.body.scrollHeight aint working
-        #could also make the range a function of desired history length 
-        for i in range(4):
+        #could also make the range a function of desired history length
+        for i in range(num):
             self.browser.execute_script("window.scrollBy(0, 20*document.body.scrollHeight);")
             time.sleep(0.25)
 
-    def html_scrolled(self):
-        self.launch()
-        self.scroll_Bottom()
+    def html_scrolled(self, num):
+        self.scroll_Bottom(num)
         return self.browser.page_source
 
 
