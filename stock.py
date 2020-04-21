@@ -3,11 +3,6 @@
 Using data from Yahoo finance
 """
 
-"""
-TODO:
-- Options to the history function for history length, etc
-"""
-
 import bs4
 import requests
 from bs4 import BeautifulSoup
@@ -23,9 +18,10 @@ class stock:
         self.id = ticker
         self.address = 'https://finance.yahoo.com/quote/'+self.id+'/history?p='+self.id
 
-    def makeSoup(self, timeframe='default', num=4):
+    def makeSoup(self, timeframe='default'):
+        num=4
         self.driver = driver(self.address)
-        time.sleep(3)
+        time.sleep(4)
 
         if timeframe !='default':
             self.change_timeframe(timeframe)
@@ -58,23 +54,34 @@ class stock:
             except:
                 pass
 
-        return pd.DataFrame(collected)
+        self.history = pd.DataFrame(collected)
 
 
     def change_timeframe(self, timeframe):
         """
         Arguments: start and stop times in 'yyyy-mm-dd' form
         """
-        start = timeframe[0].split('-')
-        stop = timeframe[1].split('-')
 
         self.driver.browser.find_element_by_css_selector(history_locations['dropdown']).click()
+
+
+        start = timeframe[0].split('-')
+        stop = timeframe[1].split('-')
         start_input = self.driver.browser.find_element_by_css_selector(history_locations['startDate'])
         stop_input = self.driver.browser.find_element_by_css_selector(history_locations['endDate'])
 
         start_input.send_keys(start[0]+Keys.TAB+start[1]+start[2])
         stop_input.send_keys(stop[0]+Keys.TAB+stop[1]+stop[2])
         #For some reason the website lets you put in xxxxxx numbers for the year so we need the TAB
+
         self.driver.browser.find_element_by_css_selector(history_locations['Done']).click()
         self.driver.browser.find_element_by_css_selector(history_locations['Apply']).click()
-        time.sleep(3)
+        time.sleep(5)
+
+    def export_history(self, path):
+        try:
+            filename = self.id + '-'+'('+self.history.iloc[-1]['Date'][-4:]+','+self.history.iloc[0]['Date'][-4:]+')'+'.csv'
+            self.history=self.history.iloc[::-1]    #reverse the order so we start chronologically
+            self.history.to_csv(path+filename, index=False)
+        except:
+            print('retrieve history first')
