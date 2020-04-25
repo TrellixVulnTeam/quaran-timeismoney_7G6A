@@ -11,29 +11,35 @@ from selenium.webdriver.common.keys import Keys
 import time
 
 from driver import driver
-from ui_html_references import history_locations
+from ui_html_references import history_locations, souped_history_locations
 
 class stock:
-    def __init__(self, ticker):
+    def __init__(self, ticker, driver):
         self.id = ticker
-        self.address = 'https://finance.yahoo.com/quote/'+self.id+'/history?p='+self.id
+        self.driver = driver
+        self.base_soup  = None
+        self.on_history = False
+        self.search()
 
     def makeSoup(self, timeframe='default'):
         num=4
-        self.driver = driver(self.address)
-        time.sleep(4)
 
         if timeframe !='default':
-            self.change_timeframe(timeframe)
+            self.change_timeframe(timeframe)    #make this thing into a function probably 
             start = float(timeframe[0].split('-')[0])
             stop = float(timeframe[1].split('-')[0])
             num = 4*int(stop-start)
 
 
         self.base_soup = BeautifulSoup(self.driver.html_scrolled(num), "html.parser")
-        self.driver.terminate()
+        #self.driver.terminate()
 
     def get_history(self, timeframe = 'default'):
+        if self.on_history == False:
+            self.driver.browser.find_element_by_css_selector(history_locations['historicalData']).click()
+            time.sleep(2)
+            self.on_history = True
+
         if timeframe != 'default':
             self.makeSoup(timeframe)
         else:
@@ -55,6 +61,18 @@ class stock:
                 pass
 
         self.history = pd.DataFrame(collected)
+        self.driver.scroll('up',20)
+
+    def get_current(self):
+        if self.base_soup is None and self.on_history == False:
+            self.driver.browser.find_element_by_css_selector(history_locations['historicalData']).click()
+            time.sleep(3)
+            self.makeSoup()
+            self.on_history = True
+
+        current_price = self.base_soup.find('span', {'class':souped_history_locations["currentPrice"]}).text
+        self.driver.scroll('up',10)    #ad hoc
+        return float(current_price)
 
 
     def change_timeframe(self, timeframe):
@@ -77,6 +95,13 @@ class stock:
         self.driver.browser.find_element_by_css_selector(history_locations['Done']).click()
         self.driver.browser.find_element_by_css_selector(history_locations['Apply']).click()
         time.sleep(5)
+
+    def search(self):
+        search_input = self.driver.browser.find_element_by_css_selector(history_locations['searchBar'])
+        search_input.send_keys(self.id)
+        time.sleep(1)
+        self.driver.browser.find_element_by_css_selector(history_locations['searchButton']).click()
+        time.sleep(3)
 
     def export_history(self, path):
         try:

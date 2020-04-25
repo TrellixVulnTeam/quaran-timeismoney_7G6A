@@ -16,6 +16,7 @@ class driver():
         self.browser = webdriver.Chrome('/Users/nathanielnethercott/Desktop/Coding/Stonks/quaran-timeismoney/chromedriver')
         self.base = base
         self.launch()
+        time.sleep(5)
 
     def launch(self):
         self.browser.get(self.base)
@@ -23,16 +24,21 @@ class driver():
     def terminate(self):
         self.browser.quit()
 
-    def scroll_Bottom(self, num):
+    def scroll(self, direction, num):
         #could do this based on time elapsed (like only scroll for x seconds)
         #maybe figure out sometime why the document.body.scrollHeight aint working
         #could also make the range a function of desired history length
-        for i in range(num):
-            self.browser.execute_script("window.scrollBy(0, 20*document.body.scrollHeight);")
-            time.sleep(0.25)
+        if direction == 'down':
+            for i in range(num):
+                self.browser.execute_script("window.scrollBy(0, 20*document.body.scrollHeight);")
+                time.sleep(0.25)
+        elif direction == 'up':
+            for i in range(num):
+                self.browser.execute_script("window.scrollBy(0, -20*document.body.scrollHeight);")
+                time.sleep(0.25)
 
     def html_scrolled(self, num):
-        self.scroll_Bottom(num)
+        self.scroll('down',num)
         return self.browser.page_source
 
 
