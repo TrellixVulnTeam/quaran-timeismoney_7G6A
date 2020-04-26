@@ -15,8 +15,6 @@ class driver():
     def __init__(self, base):
         self.browser = webdriver.Chrome('/Users/nathanielnethercott/Desktop/Coding/Stonks/quaran-timeismoney/chromedriver')
         self.base = base
-        self.launch()
-        time.sleep(5)
 
     def launch(self):
         self.browser.get(self.base)
@@ -30,12 +28,17 @@ class driver():
         #could also make the range a function of desired history length
         if direction == 'down':
             for i in range(num):
-                self.browser.execute_script("window.scrollBy(0, 20*document.body.scrollHeight);")
+                self.browser.execute_script("window.scrollBy(0, document.body.scrollHeight);")
                 time.sleep(0.25)
         elif direction == 'up':
             for i in range(num):
-                self.browser.execute_script("window.scrollBy(0, -20*document.body.scrollHeight);")
+                self.browser.execute_script("window.scrollBy(0, -document.body.scrollHeight);")
                 time.sleep(0.25)
+        elif direction == 'top':
+            self.browser.execute_script("window.scrollTo(0, 0);")
+
+        elif direction == 'smidgeDown':
+            self.browser.execute_script("window.scrollBy(0, 2);")
 
     def html_scrolled(self, num):
         self.scroll('down',num)

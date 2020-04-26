@@ -25,7 +25,7 @@ class stock:
         num=4
 
         if timeframe !='default':
-            self.change_timeframe(timeframe)    #make this thing into a function probably 
+            self.change_timeframe(timeframe)    #make this thing into a function probably
             start = float(timeframe[0].split('-')[0])
             stop = float(timeframe[1].split('-')[0])
             num = 4*int(stop-start)
@@ -61,7 +61,7 @@ class stock:
                 pass
 
         self.history = pd.DataFrame(collected)
-        self.driver.scroll('up',20)
+        self.driver.scroll('top')
 
     def get_current(self):
         if self.base_soup is None and self.on_history == False:
@@ -71,7 +71,7 @@ class stock:
             self.on_history = True
 
         current_price = self.base_soup.find('span', {'class':souped_history_locations["currentPrice"]}).text
-        self.driver.scroll('up',10)    #ad hoc
+        self.driver.scroll('top')    #ad hoc
         return float(current_price)
 
 
@@ -102,6 +102,7 @@ class stock:
         time.sleep(1)
         self.driver.browser.find_element_by_css_selector(history_locations['searchButton']).click()
         time.sleep(3)
+        self.driver.scroll('smidgeDown')
 
     def export_history(self, path):
         try:
