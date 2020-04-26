@@ -6,15 +6,9 @@ from driver import driver
 import time
 from ui_html_references import history_locations
 
-BNS_TO = {'ticker':'BNS.TO', 'entry_price':53.78, 'quantity':5}
-CNQ_TO = {'ticker':'CNQ.TO', 'entry_price':17.67, 'quantity':10}
-
-Portfolio = [BNS_TO, CNQ_TO]
-
 if __name__ == '__main__':
-    a = driver('https://finance.yahoo.com/')
-    b = portfolio(Portfolio,a)
-    
+    a = portfolio(Portfolio)
+
 
 
 

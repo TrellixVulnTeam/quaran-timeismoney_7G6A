@@ -2,17 +2,16 @@ from stock import stock
 import time
 
 class portfolio():
-    def __init__(self, portfolio_contents, driver):
+    def __init__(self, portfolio_contents):
         self.portfolio_ = portfolio_contents
-        self.driver = driver
-        self.driver.launch()
 
     def netAssetValue(self):
         current_positions = []
         for item in self.portfolio_:
-            stock_obj = stock(item['ticker'],self.driver)
+            stock_obj = stock(item['ticker'])
             time.sleep(2)
             current_positions.append(stock_obj.get_current())
+            stock_obj.driver.terminate()
 
         original_positions = [item['entry_price'] for item in self.portfolio_]
 
