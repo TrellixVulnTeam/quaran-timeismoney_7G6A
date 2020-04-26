@@ -12,7 +12,7 @@ history_locations = {
 'Apply':"button[class=' Bgc($linkColor) Bdrs(3px) Px(20px) Miw(100px) Whs(nw) Fz(s) Fw(500) C(white) Bgc($linkActiveColor):h Bd(0) D(ib) Cur(p) Td(n)  Py(9px) Fl(end)']",
 'Max':"button[data-value='Max']",
 'searchBar':"input[class='Bgc(t) Bd Bdrsbstart(2px)! Bdc(#b0b0b0) Bdendw(0) Bdrs(0) Bdrststart(2px)! Bxsh(n) Bxz(bb) D(b) Fz(15px) H(inh) M(0) O(0) Px(10px) W(100%) Bdc($c-fuji-blue-1-c):f Bdc(#949494):h finsrch-inpt']",
-'searchButton':"button[class='Bgc($c-fuji-blue-1-b) Bd(n) Bdrsbend(2px) Bdrstend(2px) D(b) H(100%) M(0) P(0) rapid-noclick-resp W(100%) Bgc($actionBlueHover):h submit-btn finsrch-btn']",
+'searchButton':"button[id='header-desktop-search-button']",
 'historicalData':"li[data-test='HISTORICAL_DATA']"
 }
 
