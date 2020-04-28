@@ -23,9 +23,11 @@ class driver():
         self.browser.quit()
 
     def scroll(self, direction, num=1):
-        #could do this based on time elapsed (like only scroll for x seconds)
-        #maybe figure out sometime why the document.body.scrollHeight aint working
-        #could also make the range a function of desired history length
+        """
+        arguments:
+            direction: "down", "up", "top", "smidgeDown"
+            num: specifies how many 'scrolls' by the document scrollHeight to move down
+        """
         if direction == 'down':
             for i in range(num):
                 self.browser.execute_script("window.scrollBy(0, document.body.scrollHeight);")
@@ -36,7 +38,6 @@ class driver():
                 time.sleep(0.25)
         elif direction == 'top':
             self.browser.execute_script("window.scrollTo(0, 0);")
-
         elif direction == 'smidgeDown':
             self.browser.execute_script("window.scrollBy(0, 20);")
 

@@ -1,23 +1,36 @@
-import smtplib
+import smtplib, ssl
 import login_info
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import numpy as np
 
 class mail:
     def __init__(self, account_info):
+        """
+        account_info: dict with keys 'username', 'password'
+        """
         self.account = account_info
 
     def compose(self, subject, body):
-        self.subject = subject
-        self.body = body
+        """
+        body: dictionary with keys 'html', 'plaintext'
+        """
+        self.message = MIMEMultipart("alternative")
+        self.message['subject'] = subject
 
-    def send(self, recipients):
+        if 'plaintext' in body:
+            self.message.attach(MIMEText(body['plaintext'], "plain"))
+        if 'html' in body:
+            self.message.attach(MIMEText(body['html'], "html"))
+
+    def send(self, recipient):
         with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
             smtp.ehlo()
             smtp.starttls()
             smtp.ehlo()
 
-            self.msg = f'Subject: {self.subject}\n\n{self.body}'
-
-            smtp.login(self.account[0], self.account[1])
-
-            for recipient in recipients:
-                smtp.sendmail(self.account[0], recipient, self.msg)
+            self.message['From'] = self.account['username']
+            self.message["To"] = recipient
+            
+            smtp.login(self.account['username'], self.account['password'])
+            smtp.sendmail(self.account['username'], recipient, self.message.as_string())

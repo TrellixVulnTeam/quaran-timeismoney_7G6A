@@ -22,7 +22,7 @@ class stock:
         self.driver.launch()
 
     def makeSoup(self, timeframe='default'):
-        num=8
+        num=16
 
         if timeframe !='default':
             self.change_timeframe(timeframe)    #make this thing into a function probably
@@ -87,7 +87,7 @@ class stock:
         self.driver.browser.find_element_by_css_selector(history_locations['Apply']).click()
         time.sleep(5)
 
-    def search(self):   #don't use this if you want to save on time 
+    def search(self):   #don't use this if you want to save on time
         search_input = self.driver.browser.find_element_by_css_selector(history_locations['searchBar'])
         search_input.send_keys(self.id)
         time.sleep(3)
