@@ -6,12 +6,14 @@ class portfolio():
     def __init__(self, portfolio_contents):
         self.portfolio_ = portfolio_contents
         self.netAssetValue()
+        self.weekly()
 
     def netAssetValue(self):
         self.stocks = []
         current_positions = []
         for item in self.portfolio_:
             stock_obj = stock(item['ticker'])
+            stock_obj.get_history()
             time.sleep(2)
             current_positions.append(stock_obj.get_current())
             stock_obj.driver.terminate()
@@ -26,7 +28,14 @@ class portfolio():
             self.netValue += running_net
 
     def weekly(self):
-        pass
+        #date = datetime.date.today().strftime("%B %d, %Y") might not need this
+        for index, company in enumerate(self.stocks):
+            prev_open = company.history.iloc[6]['Open']
+            current_close = company.history.iloc[0]['Adj. Close']
+            delta = self.portfolio_[index]['quantity']*(current_close - prev_open)
+            company.weeklyDelta = delta
+
+
 
 
 
