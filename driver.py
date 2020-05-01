@@ -30,11 +30,11 @@ class driver():
         """
         if direction == 'down':
             for i in range(num):
-                self.browser.execute_script("window.scrollBy(0, document.body.scrollHeight);")
+                self.browser.execute_script("window.scrollBy(0, 20*document.body.scrollHeight);")
                 time.sleep(0.25)
         elif direction == 'up':
             for i in range(num):
-                self.browser.execute_script("window.scrollBy(0, -document.body.scrollHeight);")
+                self.browser.execute_script("window.scrollBy(0, -20*document.body.scrollHeight);")
                 time.sleep(0.25)
         elif direction == 'top':
             self.browser.execute_script("window.scrollTo(0, 0);")

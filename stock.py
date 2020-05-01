@@ -22,7 +22,7 @@ class stock:
         self.driver.launch()
 
     def makeSoup(self, timeframe='default'):
-        num=16
+        num=4
 
         if timeframe !='default':
             self.change_timeframe(timeframe)    #make this thing into a function probably
@@ -62,6 +62,7 @@ class stock:
             self.makeSoup()
 
         current_price = self.base_soup.find('span', {'class':souped_history_locations["currentPrice"]}).text
+        self.current = float(current_price)
         self.driver.scroll('top',10)
         return float(current_price)
 
