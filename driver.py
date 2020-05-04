@@ -18,6 +18,7 @@ class driver():
 
     def launch(self):
         self.browser.get(self.base)
+        time.sleep(2)
 
     def terminate(self):
         self.browser.quit()
