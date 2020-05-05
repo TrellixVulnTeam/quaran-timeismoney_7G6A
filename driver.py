@@ -9,11 +9,12 @@ TODO: add a function for the driver to click on a certain tab
 import requests
 from selenium import webdriver
 import time
+import os
 
 class driver():
 
     def __init__(self, base):
-        self.browser = webdriver.Chrome('/Users/nathanielnethercott/Desktop/Coding/Stonks/quaran-timeismoney/chromedriver')
+        self.browser = webdriver.Chrome(os.getcwd()+'/chromedriverwin')
         self.base = base
 
     def launch(self):

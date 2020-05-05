@@ -1,5 +1,5 @@
 import smtplib, ssl
-import login_info
+#import login_info
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import numpy as np
@@ -31,6 +31,6 @@ class mail:
 
             self.message['From'] = self.account['username']
             self.message["To"] = recipient
-            
+
             smtp.login(self.account['username'], self.account['password'])
             smtp.sendmail(self.account['username'], recipient, self.message.as_string())
