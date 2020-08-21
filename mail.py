@@ -31,6 +31,6 @@ class mail:
 
             self.message['From'] = self.account['username']
             self.message["To"] = recipient
-            
+
             smtp.login(self.account['username'], self.account['password'])
             smtp.sendmail(self.account['username'], recipient, self.message.as_string())
