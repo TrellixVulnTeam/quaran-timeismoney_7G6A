@@ -1,9 +1,6 @@
 from stock import stock
 from mail import mail
 from portfolio import portfolio
-from driver import driver
-import time
-from ui_html_references import history_locations
 from CONFIG import *
 
 
