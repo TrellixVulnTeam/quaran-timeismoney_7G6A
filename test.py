@@ -1,26 +1,31 @@
 from stock import stock
 from mail import mail
-from login_info import info
-from Portfolio import Portfolio
+from portfolio import portfolio
+from driver import driver
+import time
+from ui_html_references import history_locations
+from CONFIG import *
+
 
 if __name__ == '__main__':
-    account = mail([info['username'], info['password']])
 
-    positions_current = []
-    positions_original = []
-    for item in Portfolio:
-        positions_original.append(item['entry_price'])
-        a = stock(item['ticker'])
-        positions_current.append(a.get_current())
+    p = portfolio(Portfolio)
+    account = mail(mail_info)
 
-    #clean this whole process up a little 
-    net = 0
-    index = 0
-    for current, original in zip(positions_current, positions_original):
-        delta = current-original
-        net+=delta*Portfolio[index]['quantity']
-        index+=1
+'''
+UNCOMMENT TO EXECUTE MAILING FEATURE, MAKE SURE TO COMPLETE REQUIRED FIELDS
+    message1 = []
+    message2 = []
+    for item in p.stocks:
+        message1.append(f'{item.id}:')
+        message1.append(f'{item.delta}'[:4])
+        message2.append(f'{item.id}:')
+        message2.append(f'{item.weeklyDelta}'[:4])
 
+    newmessage1 = 'Net \n' + ' '.join(message1[0:2])+'\n'+' '.join(message1[2:])
+    newmessage2 = 'Weekly \n' + ' '.join(message2[0:2])+'\n'+ ' '.join(message2[2:])
+    tosend = newmessage1 + '\n\n' + newmessage2
 
-    account.compose('First Automated Report', f'Net value of owned shares: {round(net,2)} CAD')
-    account.send(['email...'])
+    account.compose("SUBJECT", {'plaintext':tosend})
+    account.send('RECIPIENT')
+'''
