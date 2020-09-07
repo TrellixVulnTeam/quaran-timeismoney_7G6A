@@ -4,6 +4,8 @@ a specified horizon.
 
 Make sure to check your version of chrome for right [ChromeDriver](https://chromedriver.chromium.org/) download.
 
+Current code assumes UNIX based OS (for navigation and such).
+
 A recent application: scraped historical data for largest canadian stocks and computed a loooottt of RMSE's between normalized 
 historical data to create equivalence classes for diversification purposes. 
 
