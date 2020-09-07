@@ -3,6 +3,6 @@ Portfolio = [
 {'ticker':'AAPL', 'entry_price':100, 'quantity':4}
 ]
 
-driver_path = 'PATH TO CHROMEDRIVER'
+driver_path = '/Users/nathanielnethercott/Desktop/Coding/Stonks/quaran-timeismoney/chromedriver'
 
 mail_info = {'username':'USERNAME','password':'PASSWORD'}

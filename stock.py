@@ -14,12 +14,12 @@ from driver import driver
 from ui_html_references import history_locations, souped_history_locations
 
 class stock:
-    def __init__(self, ticker, driver):
+    def __init__(self, ticker):
         self.id = ticker
-        self.driver = driver
+        self.address = 'https://finance.yahoo.com/quote/'+self.id+'/history?p='+self.id
+        self.driver = driver(self.address)
         self.base_soup  = None
-        self.on_history = False
-        self.search()
+        self.driver.launch()
 
     def makeSoup(self, timeframe='default'):
         num=4
@@ -35,11 +35,6 @@ class stock:
         #self.driver.terminate()
 
     def get_history(self, timeframe = 'default'):
-        if self.on_history == False:
-            self.driver.browser.find_element_by_css_selector(history_locations['historicalData']).click()
-            time.sleep(2)
-            self.on_history = True
-
         if timeframe != 'default':
             self.makeSoup(timeframe)
         else:
@@ -61,17 +56,14 @@ class stock:
                 pass
 
         self.history = pd.DataFrame(collected)
-        self.driver.scroll('top')
 
     def get_current(self):
-        if self.base_soup is None and self.on_history == False:
-            self.driver.browser.find_element_by_css_selector(history_locations['historicalData']).click()
-            time.sleep(3)
+        if self.base_soup is None:
             self.makeSoup()
-            self.on_history = True
 
         current_price = self.base_soup.find('span', {'class':souped_history_locations["currentPrice"]}).text
-        self.driver.scroll('top')    #ad hoc
+        self.current = float(current_price)
+        self.driver.scroll('top',10)
         return float(current_price)
 
 
@@ -96,13 +88,14 @@ class stock:
         self.driver.browser.find_element_by_css_selector(history_locations['Apply']).click()
         time.sleep(5)
 
-    def search(self):
+    def search(self):   #don't use this if you want to save on time
         search_input = self.driver.browser.find_element_by_css_selector(history_locations['searchBar'])
         search_input.send_keys(self.id)
-        time.sleep(1)
-        self.driver.browser.find_element_by_css_selector(history_locations['searchButton']).click()
         time.sleep(3)
+        self.driver.browser.find_element_by_css_selector(history_locations['searchButton']).click()
+        time.sleep(5)
         self.driver.scroll('smidgeDown')
+
 
     def export_history(self, path):
         try:
