@@ -1,5 +1,4 @@
 import smtplib, ssl
-import login_info
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import numpy as np
