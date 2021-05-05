@@ -6,6 +6,8 @@ Make sure to check your version of chrome for right [ChromeDriver](https://chrom
 
 Current code assumes Unix based OS (for navigation and such).
 
-A recent application: scraped historical data for largest canadian stocks and computed a loooottt of RMSE's between normalized 
+A recent application: scraped historical data for largest canadian stocks and computed a lot of RMSE's between normalized 
 historical data to create equivalence classes for diversification purposes. 
+
+Checkout [this video](https://nnethercott.github.io/natenethercott/projects/stockbot.html) to see the code in action doing a basic data scrape.  
 
